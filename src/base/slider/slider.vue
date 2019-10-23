@@ -5,13 +5,56 @@
       </slot>
     </div>
     <div class="dots">
-      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="item in dots"></span>
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
+// import BScroll from 'better-scroll'
+import {addClass} from 'common/js/dom'
 
+export default{
+  props: {// 轮播图组件参数设置
+    loop: { // 是否循环播放
+      type: Boolean,
+      default: true
+    },
+    auto: { // 是否自动播放
+      type: Boolean,
+      default: true
+    },
+    interval: { // 间隔时间
+      type: Number,
+      default: 4000
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this._setSliderWidth()
+      this._initSlider()
+    }, 20)
+  },
+  methods: {
+    _setSliderWidth(isResize) {
+      this.children = this.$refs.sliderGroup.children
+      let width = 0
+      let sliderwidth = this.$refs.slider.clientWidth
+
+      for (let i = 0; i < this.children.length; i++) {
+        let child = this.children[i]
+        addClass(child, 'slider-item')
+        child.style.width = sliderwidth + 'px'
+        width += sliderwidth
+      }
+
+      if (this.loop) {
+        width += 2 * sliderwidth
+      }
+      this.$refs.sliderGroup.style.width = width + 'px'
+    },
+    _initSlider() {}
+  }
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

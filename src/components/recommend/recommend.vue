@@ -1,7 +1,7 @@
 <template>
   <div class="recommend" >
     <div class="recommend-content">
-      <div class="slider-wrapper">
+      <div v-if="recommends.length" class="slider-wrapper">
         <slider>
           <div v-for="item in recommends" :key="item.picUrl">
             <a :href="item.linkUrl">
@@ -25,6 +25,9 @@ import {getRecommend} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 
 export default {
+  components: {
+    'slider': Slider
+  },
   data() {
     return {
       recommends: []
